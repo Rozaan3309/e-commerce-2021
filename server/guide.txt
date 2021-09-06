@@ -1,0 +1,2 @@
+please create .env file containing these variables:
+-PORT (as a port for server)

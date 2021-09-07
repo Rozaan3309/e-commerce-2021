@@ -1,5 +1,5 @@
 require('dotenv').config()
-const { Item } = require('../models')
+const { Item, Account} = require('../models')
 
 class ItemController {
    static addItem (req, res, next) {
@@ -24,7 +24,9 @@ class ItemController {
    }
 
    static getAll (req, res, next) {
-      Item.findAll()
+      Item.findAll({
+         include: [Account],
+      })
       .then((data) => {
          res.status(200).json({
             message: "get Data success",
@@ -48,9 +50,9 @@ class ItemController {
          })
       } else {
          Item.findOne({
-            where: {
-               id: itemId
-            }})
+            where: {id: itemId},
+            include: [Account]
+         })
          .then((data) => {
             res.status(200).json({
                message: "get Data success",

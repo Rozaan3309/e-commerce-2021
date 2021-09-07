@@ -23,7 +23,29 @@ class CartController {
 
    static getAll (req, res, next) {
       Cart.findAll({
-         include: Account
+         include: [Account, Item]
+      })
+      .then((data) => {
+         res.status(200).json({
+            message: "get Data success",
+            result: data
+         })
+      })
+      .catch((err) => {
+         res.status(500).json({
+            message: "Internal Server Error",
+            log: err
+         })
+      })
+   }
+
+   static getAllFromAccount (req, res, next) {
+      const id = req.params.AccountId
+      
+      Cart.findAll({
+         where: {AccountId: id},
+         include: [Item],
+         attributes: ['id', 'AccountId', "ItemId", "quantity"]
       })
       .then((data) => {
          res.status(200).json({
@@ -40,17 +62,19 @@ class CartController {
    }
 
    static getOne (req, res, next) {
-      const cartId = req.params.id
+      const {AccountId, ItemId} = req.params
 
-      if (!cartId) {
+      if (!AccountId, ItemId) {
          res.status(422).json({
             message: "Data couldn't be processed"
          })
       } else {
          Cart.findOne({
             where: {
-               id: cartId
-            }})
+               AccountId, ItemId
+            },
+            include: [Account, Item]
+         })
          .then((data) => {
             res.status(200).json({
                message: "get Data success",
@@ -67,18 +91,20 @@ class CartController {
    }
 
    static update (req, res, next) {
+      const {AccountId, ItemId} = req.params
+      const {quantity} = req.body
 
-      const {AccountId, ItemId, quantity} = req.body
-      const cartId = req.params.id
-
-      if (!cartId) {
+      if (!AccountId || !ItemId) {
          res.status(422).json({
             message: "Data couldn't be processed"
          })
       } else {
-         Cart.findOne({where:{id:cartId}})
+         Cart.findOne({
+            where:{AccountId:AccountId, ItemId:ItemId},
+            include: [Account, Item]
+         })
          .then((data) => {
-            data.update({AccountId, ItemId, quantity}, {where: {id: cartId}})
+            data.update({AccountId, ItemId, quantity}, {where: {AccountId:AccountId, ItemId:ItemId}})
             .then((updated) => {
                res.status(200).json({
                   message: "update Data success",
@@ -103,14 +129,40 @@ class CartController {
    }
 
    static delete (req, res, next) {
-      const cartId = req.params.id
+      // const cartId = req.params.id
+      const {AccountId, ItemId} = req.params
 
-      if (!cartId) {
+      if (!AccountId || !ItemId) {
          res.status(422).json({
             message: "Data couldn't be processed"
          })
       } else {
-         Cart.destroy({where: {id: cartId}})
+         Cart.destroy({where:{AccountId:AccountId, ItemId:ItemId}})
+         .then((data) => {
+            res.status(200).json({
+               message: "delete Data success",
+               result: data
+            }) 
+         })
+         .catch((err) => {
+            res.status(500).json({
+               message: "Internal Server Error",
+               log: err
+            })
+         })
+      }
+   }
+
+   static deleteAll (req, res, next) {
+      // const cartId = req.params.id
+      const {AccountId} = req.params
+
+      if (!AccountId) {
+         res.status(422).json({
+            message: "Data couldn't be processed"
+         })
+      } else {
+         Cart.destroy({where:{AccountId:AccountId}})
          .then((data) => {
             res.status(200).json({
                message: "delete Data success",

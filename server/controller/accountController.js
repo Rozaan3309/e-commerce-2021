@@ -1,5 +1,5 @@
 require('dotenv').config()
-const { Account } = require('../models')
+const { Account, Item, Cart } = require('../models')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
@@ -68,7 +68,10 @@ class AccountController {
    }
 
    static getAll (req, res, next) {
-      Account.findAll({attributes: ['name', 'email', 'isAdmin']})
+      Account.findAll({
+         attributes: ['id', 'name', 'email', 'isAdmin'],
+         include: [Item]
+      })
       .then((data) => {
          res.status(200).json({
             message: "get Data success",
@@ -95,8 +98,9 @@ class AccountController {
             where: {
                id: accountId
             },
-            attributes: ['name', 'email', 'isAdmin']
-            })
+            attributes: ['id', 'name', 'email', 'isAdmin'],
+            include: [Item]
+         })
          .then((data) => {
             res.status(200).json({
                message: "get Data success",

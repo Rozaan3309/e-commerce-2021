@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Account.belongsToMany(models.Item, {through: models.Cart})
     }
   };
   Account.init({

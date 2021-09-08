@@ -35,12 +35,14 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
       beforeUpdate: async (Account, options) => {
-        const pass = Account.password
-        const hashed = bcrypt.hashSync(pass, saltRounds)
-        if (!hashed) {
-          console.log("error hash failed")
-        } else {
-          Account.password = hashed
+        if (Account.password) {
+          const pass = Account.password
+          const hashed = bcrypt.hashSync(pass, saltRounds)
+          if (!hashed) {
+            console.log("error hash failed")
+          } else {
+            Account.password = hashed
+          }
         }
       }
     }

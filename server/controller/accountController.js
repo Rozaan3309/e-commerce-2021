@@ -89,82 +89,38 @@ class AccountController {
    static getOne (req, res, next) {
       const accountId = req.params.id
 
-      if (!accountId) {
-         res.status(422).json({
-            message: "Data couldn't be processed"
+      Account.findOne({
+         where: {
+            id: accountId
+         },
+         attributes: ['id', 'name', 'email', 'isAdmin'],
+         include: [Item]
+      })
+      .then((data) => {
+         res.status(200).json({
+            message: "get Data success",
+            result: data
+         }) 
+      })
+      .catch((err) => {
+         res.status(500).json({
+            message: "Internal Server Error",
+            log: err
          })
-      } else {
-         Account.findOne({
-            where: {
-               id: accountId
-            },
-            attributes: ['id', 'name', 'email', 'isAdmin'],
-            include: [Item]
-         })
-         .then((data) => {
-            res.status(200).json({
-               message: "get Data success",
-               result: data
-            }) 
-         })
-         .catch((err) => {
-            res.status(500).json({
-               message: "Internal Server Error",
-               log: err
-            })
-         })
-      }
+      })
    }
 
    static update (req, res, next) {
 
       const {name, email, password} = req.body
       const accountId = req.params.id
-
-      if (!accountId) {
-         res.status(422).json({
-            message: "Data couldn't be processed"
-         })
-      } else {
-         Account.findOne({where:{id:accountId}})
-         .then((data) => {
-            data.update({name, email, password}, {where: {id: accountId}})
-            .then((updated) => {
-               res.status(200).json({
-                  message: "update Data success",
-                  result: updated
-               }) 
-            })
-            .catch((err) => {
-               res.status(500).json({
-                  message: "Internal Server Error",
-                  log: err
-               })
-            })
-         })
-         .catch((err) => {
-            res.status(500).json({
-               message: "Internal Server Error",
-               log: err
-            })
-         })
-      }
-
-   }
-
-   static delete (req, res, next) {
-      const accountId = req.params.id
-
-      if (!accountId) {
-         res.status(422).json({
-            message: "Data couldn't be processed"
-         })
-      } else {
-         Account.destroy({where: {id: accountId}})
-         .then((data) => {
+      Account.findOne({where:{id:accountId, isAdmin: false}})
+      .then((data) => {
+         data.update({name, email, password}, {where: {id: accountId}})
+         .then((updated) => {
             res.status(200).json({
-               message: "delete Data success",
-               result: data
+               message: "update Data success",
+               result: updated
             }) 
          })
          .catch((err) => {
@@ -173,20 +129,31 @@ class AccountController {
                log: err
             })
          })
-      }
+      })
+      .catch((err) => {
+         res.status(500).json({
+            message: "Internal Server Error",
+            log: err
+         })
+      })
    }
 
-   static checkAllBody (req, res, next) {
-      const {name, email, password} = req.body
-      if (!name || !email || !password) {
-         console.log("failed to validate all body")
-         res.status(422).json({
-            message: "Unprocessable Data"
+   static delete (req, res, next) {
+      const accountId = req.params.id
+
+      Account.destroy({where: {id: accountId}})
+      .then((data) => {
+         res.status(200).json({
+            message: "delete Data success",
+            result: data
+         }) 
+      })
+      .catch((err) => {
+         res.status(500).json({
+            message: "Internal Server Error",
+            log: err
          })
-      } else {
-         console.log("success to validate all body")
-         next()
-      }
+      })
    }
 }
 

@@ -1,12 +1,6 @@
-const error400 = {
-   message: "Bad Request"
-}
-
-const error422 = {
-   message: "Unprocessable Data"
-}
-
 const addItem = (req, res, next) => {
+   console.log(req.userData)
+
    const {name, thumbnail, price, stock} = req.body
    if (!name || !thumbnail || !price || !stock) {
       next({name: "REQUIRED_DATA_NOT_FOUND"})
@@ -19,9 +13,9 @@ const addItem = (req, res, next) => {
 
 const checkId = (req, res, next) => {
    if (!req.params.id) {
-      res.status(400).json(error400)
+      next({name: "REQUIRED_DATA_NOT_FOUND"})
    } else if (typeof req.params.id !== "string"){
-      res.status(422).json(error422)
+      next({name: "UNPROCESSABLE_DATA"})
    } else {
       next()
    }

@@ -1,11 +1,3 @@
-const error400 = {
-   message: "Bad Request"
-}
-
-const error422 = {
-   message: "Unprocessable Data"
-}
-
 const register = (req, res, next) => {
    const {name, email, password} = req.body
    if (!name || !email || !password) {

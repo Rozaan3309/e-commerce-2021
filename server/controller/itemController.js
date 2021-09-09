@@ -6,8 +6,6 @@ class ItemController {
 
       const {name, thumbnail, price, stock} = req.body
 
-      console.log(req.body)
-
       Item.create({name, thumbnail, price, stock})
       .then((data) => {
          res.status(201).json({

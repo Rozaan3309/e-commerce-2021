@@ -16,9 +16,9 @@ class AccountController {
          })
       })
       .catch((err) => {
-         res.status(500).json({
-            message: 'Internal Server Error',
-            result: err,
+         next({
+            name: "failed to create account",
+            log: err
          })
       })
    }
@@ -47,7 +47,10 @@ class AccountController {
                }, process.env.SECRET_KEY, 
                (err, token) => {
                   if (err) {
-                     console.log('error creating a token', err)
+                     next({
+                        name: "cannot sign a token",
+                        log: err
+                     })
                   } else {
                      res.status(200).json({
                         message: "Login success!",
@@ -59,8 +62,8 @@ class AccountController {
          })
       })
       .catch((err) => {
-         res.status(404).json({
-            message: "User not found",
+         next({
+            name: "REQUESTED_DATA_NOT_FOUND",
             log: err
          })
       })

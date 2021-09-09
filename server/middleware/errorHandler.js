@@ -1,11 +1,11 @@
 const errorHandler = ( err, req, res, next ) => {
    let statusCode = 0
    let message = ''
-   let log = err.log
+   let log = err.log ? err.log : ""
 
-   if (!err.name) {
-      statusCode = 500
-      message = "Internal Server Error"
+   if (err.name === "REQUESTED_DATA_NOT_FOUND") {
+      statusCode = 404
+      message = "Data Not Found"
       if (err.custom) {
          message = err.custom
       }
@@ -21,12 +21,21 @@ const errorHandler = ( err, req, res, next ) => {
       if (err.custom) {
          message = err.custom
       }
-   } else if (err.name === "REQUESTED_DATA_NOT_FOUND") { //data yang diminta user ditak ditemukan
-      statusCode = 404
-      message = "Data Not Found"
+   } else if (err.name === "FORBIDDEN") {
+      statusCode = 403
+      message = "Unauthenticated"
       if (err.custom) {
          message = err.custom
       }
+   } else if (err.name === "UNAUTHORIZED") {
+      statusCode = 401
+      message = "Unauthorized"
+      if (err.custom) {
+         message = err.custom
+      }
+   } else {
+      statusCode = 500
+      message = "Internal Server Error"
    }
 
    res.status(statusCode).json({

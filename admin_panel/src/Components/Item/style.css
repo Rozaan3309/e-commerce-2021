@@ -1,0 +1,13 @@
+#itemHeadContainer {
+   display: flex;
+   position: sticky;
+   justify-content: space-around;
+   width: inherit;
+   top: 0;
+
+
+   width: 100%;
+}
+#itemContainer {
+   
+}

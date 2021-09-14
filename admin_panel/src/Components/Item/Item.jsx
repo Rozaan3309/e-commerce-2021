@@ -5,27 +5,34 @@ const Item = (props) => {
 
    const {
       item,
-      type
+      type,
+      setData,
+      setBtnText
    } = props
+
 
    if (type === "head") {
       return (
          <div id="itemHeadContainer">
-            <h2>Thumbnail</h2>
-            <h2>Name</h2>
-            <h2>Stock</h2>
-            <h2>Price</h2>
-            <h2>Actions</h2>
+            <h2 className="itemComponent">Thumbnail</h2>
+            <h2 className="itemComponent">Name</h2>
+            <h2 className="itemComponent">Stock</h2>
+            <h2 className="itemComponent">Price</h2>
+            <h2 className="itemComponent">Actions</h2>
          </div>
       )
 
    } else {
       return (
          <div id="itemContainer">
-            <img src={item.thumbnail} width="100px"/>
-            <h2>{item.name}</h2>
-            <p>{item.stock}</p>
-            <p>{item.price}</p>
+            <img className="itemComponent" src={item.thumbnail} width="100px"/>
+            <p className="itemComponent">{item.name}</p>
+            <p className="itemComponent">{item.stock}</p>
+            <p className="itemComponent">{item.price}</p>
+            <div className="itemComponent">
+               <button onClick={() => {setData(item); setBtnText("Update") }} className="CRUDBtn" id="updateBtn">Update</button>
+               <button className="CRUDBtn" id="deleteBtn">Delete</button>
+            </div>
          </div>
       )
    }

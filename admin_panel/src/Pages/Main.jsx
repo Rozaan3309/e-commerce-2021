@@ -12,6 +12,13 @@ const Main = (props) => {
    } = props
 
    const [items, setItems] = useState([])
+   const [updateData, setUpdateData] = useState({
+      name: "",
+      stock: 0,
+      price: 0,
+      thumbnail: ""
+   })
+   const [btnText, setBtnText] = useState("")
 
    useEffect(() => {
       fetchItems()
@@ -33,13 +40,20 @@ const Main = (props) => {
 
    return (
       <div id="mainContainer">
-         <Sidebar checkLogin={checkLogin} />
+         <Sidebar 
+            fetchItems={fetchItems}
+            btnText={btnText}
+            updateData={updateData}
+            setData={setUpdateData}
+            setBtnText={setBtnText}
+            checkLogin={checkLogin}
+         />
          <div id="listContainer">
             <Item type={"head"}/>
             {
                items.map((item, key) => {
                   return (
-                     <Item key={key} item={item}/>
+                     <Item setData={setUpdateData} setBtnText={setBtnText} key={key} item={item}/>
                   )
                })
             }

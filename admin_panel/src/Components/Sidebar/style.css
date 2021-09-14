@@ -7,8 +7,9 @@
 }
 
 #sidebarTitle {
-   margin: 0;
+   margin: 2vh 1vw;
    color: white;
+   font-size: 2vw;
 }
 
 #addForm {

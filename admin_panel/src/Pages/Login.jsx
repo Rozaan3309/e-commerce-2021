@@ -7,10 +7,6 @@ function Login (props) {
    const [email, setEmail] = useState("")
    const [password, setPassword] = useState("")
 
-   useEffect(() => {
-      console.log(email, password)
-   }, [email, password])
-
    const adminLogin = (e) => {
       e.preventDefault()
       let style = e.target.style
@@ -28,7 +24,6 @@ function Login (props) {
          }
       }))
       .then((response) => {
-         console.log(response.data.token)
          localStorage.setItem("accessToken", response.data.token) 
          props.checkLogin()   
       })

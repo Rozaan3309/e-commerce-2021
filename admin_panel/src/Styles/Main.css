@@ -3,9 +3,11 @@
 }
 
 #listContainer {
+   box-sizing: border-box;
    flex: 3;
    float: right;
    height: 100vh;
+   padding-top: 2vh;
    /* width: 100vw; */
 
    overflow: scroll;

@@ -4,10 +4,41 @@
    justify-content: space-around;
    width: inherit;
    top: 0;
-
-
-   width: 100%;
+   background-image: linear-gradient(to right, rgb(116, 60, 190), #327de2);
+   color: white;
+   border-radius: 20px;
+   margin-left: 1vw;
+   margin-bottom: 2vh;
+   width: 95%;
 }
 #itemContainer {
+   width: 95%;
+   display: flex;
+   height: 20vh;
+   margin-left: 1vw;
+}
+
+.itemComponent {
+   flex: 1;
+   padding: 0 1vw;
+   font-size: 1.2vw;
+}
+
+.CRUDBtn {
+   font-size: 0.8vw;
+   width: 4vw;
+   height: 2vw;
+   margin: 0 1vw;
+   font-weight: bold;
+   color: white;
+   border: none;
+   border-radius: 10px;
+   cursor: pointer;
+}
+#deleteBtn {
+   background-image: linear-gradient(to right, rgb(214, 34, 10), rgb(116, 60, 190));
+}
+#updateBtn {
+   background-image: linear-gradient(to right, rgb(10, 83, 219), rgb(116, 60, 190));
    
 }

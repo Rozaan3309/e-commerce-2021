@@ -34,6 +34,7 @@
    border: none;
    border-radius: 10px;
    cursor: pointer;
+   transition: 0.05s all;
 }
 #deleteBtn {
    background-image: linear-gradient(to right, rgb(214, 34, 10), rgb(116, 60, 190));

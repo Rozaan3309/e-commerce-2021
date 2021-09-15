@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react'
-import axios from 'axios'
 import '../Styles/Main.css'
 
 import Sidebar from '../Components/Sidebar/Sidebar'
@@ -8,10 +7,14 @@ import Item from '../Components/Item/Item'
 const Main = (props) => {
 
    const {
-      checkLogin
+      items,
+      checkLogin,
+      toggleModal,
+      selectedItem,
+      fetchItems,
    } = props
 
-   const [items, setItems] = useState([])
+   
    const [updateData, setUpdateData] = useState({
       name: "",
       stock: 0,
@@ -19,24 +22,6 @@ const Main = (props) => {
       thumbnail: ""
    })
    const [btnText, setBtnText] = useState("")
-
-   useEffect(() => {
-      fetchItems()
-   }, [])
-
-   const fetchItems = () => {
-      axios({
-         url: "http://localhost:4000/api/item/getAll",
-         method: "GET"
-      })
-      .then((response) => {
-         console.log(response)
-         setItems(response.data.result)
-      })
-      .catch((err) => {
-         console.log(err)
-      })
-   }
 
    return (
       <div id="mainContainer">
@@ -53,7 +38,14 @@ const Main = (props) => {
             {
                items.map((item, key) => {
                   return (
-                     <Item setData={setUpdateData} setBtnText={setBtnText} key={key} item={item}/>
+                     <Item
+                        selectedItem={selectedItem}
+                        toggleModal={toggleModal}
+                        setData={setUpdateData}
+                        setBtnText={setBtnText}
+                        key={key}
+                        item={item}
+                     />
                   )
                })
             }

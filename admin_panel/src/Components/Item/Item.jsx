@@ -7,9 +7,29 @@ const Item = (props) => {
       item,
       type,
       setData,
-      setBtnText
+      setBtnText,
+      toggleModal,
+      selectedItem,
    } = props
 
+   const clicked = (e) => {
+      let style = e.target.style
+      style.opacity = "0.5"
+      setTimeout(() => {
+         style.opacity = "1"
+      }, 150)
+   }
+
+   const handleUpdate = (e) => {
+      clicked(e)
+      setData(item);
+      setBtnText("Update");
+   }
+   const handleDelete = (e) => {
+      clicked(e)
+      toggleModal(true)
+      selectedItem(item.id)
+   }
 
    if (type === "head") {
       return (
@@ -30,8 +50,8 @@ const Item = (props) => {
             <p className="itemComponent">{item.stock}</p>
             <p className="itemComponent">{item.price}</p>
             <div className="itemComponent">
-               <button onClick={() => {setData(item); setBtnText("Update") }} className="CRUDBtn" id="updateBtn">Update</button>
-               <button className="CRUDBtn" id="deleteBtn">Delete</button>
+               <button onClick={(e) => {handleUpdate(e)}} className="CRUDBtn" id="updateBtn">Update</button>
+               <button onClick={(e) => {handleDelete(e)}} className="CRUDBtn" id="deleteBtn">Delete</button>
             </div>
          </div>
       )

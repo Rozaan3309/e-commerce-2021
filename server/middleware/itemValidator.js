@@ -19,6 +19,7 @@ const checkId = (req, res, next) => {
    } else if (typeof req.params.id !== "string"){
       next({name: "UNPROCESSABLE_DATA"})
    } else {
+      console.log("masuk")
       next()
    }
 }

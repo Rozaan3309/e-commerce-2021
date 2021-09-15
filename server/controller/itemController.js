@@ -91,7 +91,9 @@ class ItemController {
    static delete (req, res, next) {
       const itemId = req.params.id
 
-      item.destroy({where: {id: itemId}})
+      console.log(itemId)
+
+      Item.destroy({where: {id: itemId}})
       .then((data) => {
          res.status(200).json({
             message: "delete Data success",

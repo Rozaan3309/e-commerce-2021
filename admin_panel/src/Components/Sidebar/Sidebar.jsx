@@ -35,15 +35,15 @@ const Sidebar = (props) => {
    }
 
    const revert = () => {
+      setButtonText("Create")
+      setBtnText("")
       setData({
          name: "",
          stock: 0,
          price: 0,
          thumbnail: ""
       });
-
-      setButtonText("Create")
-      setBtnText("")
+      
       console.log('revert', buttonText)
    }
 
